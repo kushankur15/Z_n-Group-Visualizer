@@ -1,8 +1,8 @@
 import streamlit as st
-from manim import * 
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 import math
+from matplotlib.colors import LinearSegmentedColormap, to_hex
 
 
 st.set_page_config(layout="wide")
@@ -11,19 +11,23 @@ st.markdown(r"# $\mathbb{Z}_n$ Visualizer")
 order = st.number_input("Enter the order of the group",min_value=1,step=1)
 
 MANIM_COLORS = {
-    "YELLOW": YELLOW,
-    "BLUE": BLUE,
-    "RED": RED,
-    "GREEN": GREEN,
-    "ORANGE": ORANGE,
-    "PURPLE": PURPLE,
-    "PINK": PINK,
-    "TEAL": TEAL,
-    "GOLD": GOLD,
-    "MAROON": MAROON,
-    "WHITE": WHITE,
-    "BLACK": BLACK,
+    "YELLOW": "#FFFF00",
+    "BLUE": "#58C4DD",
+    "RED": "#FC6255",
+    "GREEN": "#83C167",
+    "ORANGE": "#FF862F",
+    "PURPLE": "#9A72AC",
+    "PINK": "#D147BD",
+    "TEAL": "#5CD0B3",
+    "GOLD": "#F0AC5F",
+    "MAROON": "#C55F73",
+    "WHITE": "#FFFFFF",
+    "BLACK": "#000000",
 }
+
+def color_gradient(start, end, n):
+    cmap = LinearSegmentedColormap.from_list("", [start, end])
+    return [to_hex(cmap(i/(n-1))) for i in range(n)]
 
 color_1_name = st.selectbox(
     "Choose first color",
@@ -37,7 +41,7 @@ color_2_name = st.selectbox(
 
 color_1 = MANIM_COLORS[color_1_name]
 color_2 = MANIM_COLORS[color_2_name]
-colors = color_gradient([color_1, color_2], int(order))
+colors = color_gradient(color_1, color_2, int(order))
 
 
 
@@ -48,7 +52,7 @@ if button_1:
     fig, ax = plt.subplots(figsize=(10, 2))
     for i, color in enumerate(colors):
         ax.add_patch(
-            Rectangle((i, 0), 1, 1, color=color.to_hex())
+            Rectangle((i, 0), 1, 1, color=color)
         )
     ax.set_xlim(0, len(colors))
     ax.set_ylim(0, 1)
@@ -65,7 +69,7 @@ if button_2:
     with col1:
         n = int(order)
         color_maps = {
-            color.to_hex(): i 
+            color: i 
             for i, color in enumerate(colors)
         }
         value_to_color = {
