@@ -8,7 +8,7 @@ from matplotlib.colors import LinearSegmentedColormap, to_hex
 st.set_page_config(layout="wide")
 st.markdown(r"# $\mathbb{Z}_n$ Visualizer")
 
-order = st.number_input("Enter the order of the group",min_value=1,step=1)
+order = st.number_input("Enter the order of the group",min_value=2,step=1)
 
 MANIM_COLORS = {
     "YELLOW": "#FFFF00",
