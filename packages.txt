@@ -1,0 +1,4 @@
+ffmpeg
+libcairo2-dev
+pkg-config
+pango1.0-tools
